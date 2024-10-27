@@ -1,22 +1,19 @@
+import org.json.simple.JSONArray;
+
 import java.util.ArrayList;
 
 public class Pokemon {
     private String name;
     private int id;
     private String img;
-    private ArrayList<String> type;
+    private JSONArray type;
     private String height;
     private String weight;
-    private ArrayList<String> weaknesses;
+    private JSONArray weaknesses;
+    private JSONArray prevEvolution;
+    private JSONArray nextEvolution;
 
-    public Pokemon(String name, int id, String img, ArrayList<String> type, String height, String weight, ArrayList<String> weaknesses) {
-        this.name = name;
-        this.id = id;
-        this.img = img;
-        this.type = type;
-        this.height = height;
-        this.weight = weight;
-        this.weaknesses = weaknesses;
+    public Pokemon() {
     }
 
     public String getName() {
@@ -43,11 +40,11 @@ public class Pokemon {
         this.img = img;
     }
 
-    public ArrayList<String> getType() {
+    public JSONArray getType() {
         return type;
     }
 
-    public void setType(ArrayList<String> type) {
+    public void setType(JSONArray type) {
         this.type = type;
     }
 
@@ -67,11 +64,70 @@ public class Pokemon {
         this.weight = weight;
     }
 
-    public ArrayList<String> getWeaknesses() {
+    public JSONArray getWeaknesses() {
         return weaknesses;
     }
 
-    public void setWeaknesses(ArrayList<String> weaknesses) {
+    public void setWeaknesses(JSONArray weaknesses) {
         this.weaknesses = weaknesses;
+    }
+
+    public JSONArray getPrevEvolution() {
+        return prevEvolution;
+    }
+
+    public void setPrevEvolution(JSONArray prevEvolution) {
+        this.prevEvolution = prevEvolution;
+    }
+
+    public JSONArray getNextEvolution() {
+        return nextEvolution;
+    }
+
+    public void setNextEvolution(JSONArray nextEvolution) {
+        this.nextEvolution = nextEvolution;
+    }
+
+    public String getCharacteristics() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getName()).append(" est de type ").append(this.getType());
+        if (this.prevEvolution != null) {
+            sb.append(". Il a comme évolution précédente ").append(this.getPrevEvolution());
+            if (this.nextEvolution != null) {
+                sb.append(" et comme prochaine évolution ").append(this.getNextEvolution());
+            } else {
+                sb.append(" et est dans sa forme finale !");
+            }
+        } else {
+            sb.append(". Il n'a pas d'évolution précédente ");
+            if (this.nextEvolution != null) {
+                sb.append(" et a comme prochaine évolution ").append(this.getNextEvolution());
+            } else {
+                sb.append(" et est dans sa forme finale !");
+            }
+        }
+        sb.append(". " + "Il est faible aux éléments suivants : ").append(this.getWeaknesses());
+        return sb.toString();
+    }
+
+    public String getCharacteristics2() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getName()).append(" est de type ").append(this.getType());
+        if (this.prevEvolution != null) {
+            sb.append(". Il a comme évolution précédente !").append(this.getPrevEvolution());
+        } else {
+            sb.append(". Il n'a pas d'évolution précédente !");
+        }
+        if (this.nextEvolution != null) {
+            sb.append(" et a comme prochaine évolution !").append(this.getNextEvolution());
+        } else {
+            sb.append(" et est dans sa forme finale !");
+        }
+        sb.append(" Il est faible aux éléments suivants : ").append(this.getWeaknesses());
+        return sb.toString();
+    }
+
+    public String getEvolutions() {
+        
     }
 }

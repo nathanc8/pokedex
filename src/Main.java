@@ -5,29 +5,68 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
 
+        List<Pokemon> pokemons = new ArrayList<>();
         String fileName = "pokedex.json";
-        String keyToGet = "pokemon";
-        JSONArray pokemonArr = generateJsonArray(fileName, keyToGet);
+        JSONArray pokemonArr = generateJsonArray(fileName);
         System.out.println(displayLength(pokemonArr));
 
-        JSONArray pokArrSortedByWeight = sortByWeight(pokemonArr);
-        System.out.println(pokArrSortedByWeight);
+        JSONArray pokemonByWeight = sortByWeight(pokemonArr);
+        System.out.println(pokemonByWeight);
 
         createPokemon(pokemonArr);
         upTo10kg(pokemonArr);
+
+        //instanciation des objets de classe Pokemon
+        for (Object obj : pokemonArr) {
+            JSONObject pokeJson = (JSONObject) obj;
+
+            int id = ((Number) pokeJson.get("id")).intValue();
+            String name = (String) pokeJson.get("name");
+            String img = (String) pokeJson.get("img");
+            JSONArray type = (JSONArray) pokeJson.get("type");
+            String height = (String) pokeJson.get("height");
+            String weight = (String) pokeJson.get("weight");
+            JSONArray weaknesses = (JSONArray) pokeJson.get("weaknesses");
+            JSONArray prevEvolution = null;
+            if (pokeJson.get("prev_evolution") != null) {
+                prevEvolution = (JSONArray) pokeJson.get("prev_evolution");
+            }
+            JSONArray nextEvolution = null;
+            if (pokeJson.get("next_evolution") != null) {
+                nextEvolution = (JSONArray) pokeJson.get("next_evolution");
+            }
+
+            Pokemon pokemon = new Pokemon();
+            pokemon.setId(id);
+            pokemon.setName(name);
+            pokemon.setImg(img);
+            pokemon.setType(type);
+            pokemon.setHeight(height);
+            pokemon.setWeight(weight);
+            pokemon.setWeaknesses(weaknesses);
+            if (prevEvolution != null) {
+                pokemon.setPrevEvolution(prevEvolution);
+            }
+            if (nextEvolution != null) {
+                pokemon.setNextEvolution(nextEvolution);
+            }
+            pokemons.add(pokemon);
+        }
     }
 
     //Récupération des informations contenues dans le json de base, pour en faire un JSONArray
-    private static JSONArray generateJsonArray(String filepath, String keyToGet) {
+    private static JSONArray generateJsonArray(String filepath) {
         try {
             Object obj = new JSONParser().parse(new FileReader(filepath));
             JSONObject jsonObj = (JSONObject) obj;
-            return (JSONArray) jsonObj.get(keyToGet);
+            return (JSONArray) jsonObj.get("pokemon");
         } catch (ParseException | IOException e) {
             throw new RuntimeException(e);
         }
