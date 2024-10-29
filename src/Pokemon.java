@@ -1,6 +1,7 @@
 import org.json.simple.JSONArray;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Pokemon {
     private String name;
@@ -14,6 +15,15 @@ public class Pokemon {
     private JSONArray nextEvolution;
 
     public Pokemon() {
+    }
+
+    public static Pokemon findPokemon(List<Pokemon> pokemons, String name) {
+        for (Pokemon pokemon : pokemons) {
+            if (pokemon.getName().equalsIgnoreCase(name)) {
+                return pokemon;
+            }
+        }
+        throw new RuntimeException("No pokemon found with this name!");
     }
 
     public String getName() {
@@ -40,8 +50,8 @@ public class Pokemon {
         this.img = img;
     }
 
-    public JSONArray getType() {
-        return type;
+    public String getType() {
+        return jsonArrayToString(type);
     }
 
     public void setType(JSONArray type) {
@@ -64,8 +74,8 @@ public class Pokemon {
         this.weight = weight;
     }
 
-    public JSONArray getWeaknesses() {
-        return weaknesses;
+    public String getWeaknesses() {
+        return jsonArrayToString(weaknesses);
     }
 
     public void setWeaknesses(JSONArray weaknesses) {
@@ -90,44 +100,51 @@ public class Pokemon {
 
     public String getCharacteristics() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getName()).append(" est de type ").append(this.getType());
+        sb.append(this.getName()).append(" is of type ").append(this.getType()).append(". ");
         if (this.prevEvolution != null) {
-            sb.append(". Il a comme évolution précédente ").append(this.getPrevEvolution());
+            sb.append("It has ").append(this.getPrevEvolution()).append(" as previous evolution");
             if (this.nextEvolution != null) {
-                sb.append(" et comme prochaine évolution ").append(this.getNextEvolution());
+                sb.append(" and ").append(this.getNextEvolution()).append("as next evolution");
             } else {
-                sb.append(" et est dans sa forme finale !");
+                sb.append(" and is in its final form!");
             }
         } else {
-            sb.append(". Il n'a pas d'évolution précédente ");
+            sb.append(". It has no previous evolution");
             if (this.nextEvolution != null) {
-                sb.append(" et a comme prochaine évolution ").append(this.getNextEvolution());
+                sb.append(" and ").append(this.getNextEvolution()).append(" as next evolution");
             } else {
-                sb.append(" et est dans sa forme finale !");
+                sb.append(" and is in its final form!");
             }
         }
-        sb.append(". " + "Il est faible aux éléments suivants : ").append(this.getWeaknesses());
+        sb.append(". It's weak to those elements : ").append(this.getWeaknesses()).append(".");
         return sb.toString();
     }
 
     public String getCharacteristics2() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getName()).append(" est de type ").append(this.getType());
+        sb.append(this.getName()).append(" is of type ").append(this.getType()).append(". ");
         if (this.prevEvolution != null) {
-            sb.append(". Il a comme évolution précédente !").append(this.getPrevEvolution());
+            sb.append("It has ").append(this.getPrevEvolution()).append(" as previous evolution");
         } else {
-            sb.append(". Il n'a pas d'évolution précédente !");
+            sb.append(". It has no previous evolution ");
         }
         if (this.nextEvolution != null) {
-            sb.append(" et a comme prochaine évolution !").append(this.getNextEvolution());
+            sb.append(" and ").append(this.getNextEvolution()).append("as next evolution");
         } else {
-            sb.append(" et est dans sa forme finale !");
+            sb.append(" and is in its final form!");
         }
-        sb.append(" Il est faible aux éléments suivants : ").append(this.getWeaknesses());
+        sb.append(" It's weak to those elements : ").append(this.getWeaknesses()).append(".");
         return sb.toString();
     }
 
-    public String getEvolutions() {
-        
+    public String jsonArrayToString(JSONArray property) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < property.size(); i++) {
+            if (i > 0) {
+                result.append(", ");
+            }
+            result.append(property.get(i).toString());
+        }
+        return result.toString();
     }
 }

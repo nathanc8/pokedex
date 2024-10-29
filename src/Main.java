@@ -59,6 +59,9 @@ public class Main {
             }
             pokemons.add(pokemon);
         }
+
+        Pokemon nidoqueen = Pokemon.findPokemon(pokemons, "Nidoqueen");
+        System.out.println(nidoqueen.getCharacteristics());
     }
 
     //Récupération des informations contenues dans le json de base, pour en faire un JSONArray
@@ -99,7 +102,7 @@ public class Main {
         System.out.println("------------------------------");
         System.out.println("Here is the list of Pokémon that weigh more than 10kg");
         for (int i = 0; i < jsonArray.size(); i++) {
-            double weight = convertToDouble(jsonArray, i);
+            double weight = convertWeightToDouble(jsonArray, i);
             if (weight >= 10) {
                 JSONObject pokemon = (JSONObject) jsonArray.get(i);
                 System.out.println(pokemon.get("name") + " weighs exactly " + weight + " kg");
@@ -117,9 +120,9 @@ public class Main {
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
                 JSONObject currentPokemon = (JSONObject) jsonArray.get(j);
-                double currentWeight = convertToDouble(jsonArray, j);
+                double currentWeight = convertWeightToDouble(jsonArray, j);
                 JSONObject comparingPokemon = (JSONObject) jsonArray.get(j + 1);
-                double comparingWeight = convertToDouble(jsonArray, j + 1);
+                double comparingWeight = convertWeightToDouble(jsonArray, j + 1);
 
                 //inversion des éléments.
                 if (currentWeight > comparingWeight) {
@@ -136,7 +139,8 @@ public class Main {
     }
 
     //permet de récupérer le poids en type double pour l'utiliser dans d'autre méthodes.
-    private static Double convertToDouble(JSONArray jsonArray, int i) {
+    //A revoir car je n'utilise pas le getter getWeight(), alors qu'il est fait pour ça.
+    private static Double convertWeightToDouble(JSONArray jsonArray, int i) {
         JSONObject jsonObject = (JSONObject) jsonArray.get(i);
         Object weightObj = jsonObject.get("weight");
         String weightStr = (String) weightObj;
