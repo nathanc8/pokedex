@@ -12,6 +12,8 @@ public class Main {
 
     public static void main(String[] args) {
 
+        System.out.println();
+
         List<Pokemon> pokemons = new ArrayList<>();
         String fileName = "pokedex.json";
         JSONArray pokemonArr = generateJsonArray(fileName);
@@ -20,8 +22,8 @@ public class Main {
         JSONArray pokemonByWeight = sortByWeight(pokemonArr);
         System.out.println(pokemonByWeight);
 
-        createPokemon(pokemonArr);
-        upTo10kg(pokemonArr);
+//        createPokemon(pokemonArr);
+//        upTo10kg(pokemonArr);
 
         //instanciation des objets de classe Pokemon
         for (Object obj : pokemonArr) {
