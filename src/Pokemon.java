@@ -17,14 +17,6 @@ public class Pokemon {
     public Pokemon() {
     }
 
-    public static Pokemon findPokemon(List<Pokemon> pokemons, String name) {
-        for (Pokemon pokemon : pokemons) {
-            if (pokemon.getName().equalsIgnoreCase(name)) {
-                return pokemon;
-            }
-        }
-        throw new RuntimeException("No pokemon found with this name!");
-    }
 
     public String getName() {
         return name;
@@ -98,6 +90,15 @@ public class Pokemon {
         this.nextEvolution = nextEvolution;
     }
 
+    public static Pokemon findPokemon(List<Pokemon> pokemons, String name) {
+        for (Pokemon pokemon : pokemons) {
+            if (pokemon.getName().equalsIgnoreCase(name)) {
+                return pokemon;
+            }
+        }
+        throw new RuntimeException("No pokemon found with this name!");
+    }
+
     public String getCharacteristics() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.getName()).append(" is of type ").append(this.getType()).append(". ");
@@ -146,5 +147,9 @@ public class Pokemon {
             result.append(property.get(i).toString());
         }
         return result.toString();
+    }
+
+    public void getEvolutions() {
+
     }
 }
